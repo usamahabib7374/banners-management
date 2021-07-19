@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!--
+
+-->
+<widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Widget:etc/widget.xsd">
+    <widget class="MageDad\BannerManagement\Block\Widget" id="magedad_BannerManagement_widget">
+        <label translate="true">MAGEDAD Banner Slider</label>
+        <description translate="true">Banner Slider list</description>
+        <parameters>
+            <parameter name="slider_id" xsi:type="select" required="true" visible="true" source_model="MageDad\BannerManagement\Model\Config\Source\Sliders">
+                <label translate="true">Select Slider</label>
+            </parameter>
+        </parameters>
+    </widget>
+</widgets>

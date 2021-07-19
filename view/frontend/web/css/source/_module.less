@@ -1,0 +1,232 @@
+// /**
+//  * Copyright © Magento, Inc. All rights reserved.
+//  * See COPYING.txt for license details.
+//  */
+
+@screen__xxl: 1200px;
+@screen__m: 999px;
+@screen__xls: 380px;
+@screen__mxls: 768px;
+
+//
+//  Common
+//  _____________________________________________
+
+& when (@media-common = true) {
+    .homepage-main-banner {
+        #banner-slider-carousel {
+            margin:0;
+            background: @color-black;
+
+            .owl-nav {
+                button {
+                    box-shadow: inherit;
+                    opacity: 1;
+                    width: 60px;
+                    height: 60px;
+                    margin-top: -30px;
+                    top: 50%;
+                    line-height: 60px;
+
+                    &:before {
+                        content: "\e608";
+                        font-family: @icons__font-name;
+                        font-size: 36px;
+                        color: @color-white;
+                        line-height: 60px;
+                        position: absolute;
+                     }
+
+                    span {
+                        font-size: 0;
+                    }
+
+                    &.owl-prev {
+                        left: 0;
+
+                        &:before {
+                            content: "\e617";
+                        }
+                    }
+
+                    &.owl-next {
+                        right: 0;
+                    }
+                }
+            }
+
+            .owl-dots {
+                bottom: 36px;
+                text-align: center;
+                width: 100%;
+                left: 0;
+
+                .owl-dot{
+                    box-shadow: inherit;
+                    width: 25px;
+                    height: 15px;
+                    margin: 0;
+
+                    span {
+                        border: solid 1px;
+                        background: #fff;
+                        float: left;
+                        border-radius: 100px;
+                        margin: 0;
+                        padding: 0;
+                        width: 12px;
+                        height: 12px;
+                    }
+
+                    &.active {
+                        span {
+                            border: @color-white solid 1px;
+                        }
+                    }
+                }
+            }
+
+        }
+
+        .video-item {
+            float: left;
+            width: 100%;
+
+            video {
+                    /*
+                    position: absolute;
+                    top: 0;
+                    left: 3%;
+                    min-width: 94%;
+                    min-height: 100%;
+                    width: 94%;
+                    height: auto;
+                    z-index: 1;
+                    */
+            }
+        }
+
+        .play-pause-box {
+            position: relative;
+            text-align: center;
+            width: 100%;
+
+            .button.secondary {
+                position: absolute;
+                right: 20px;
+                top: -64px;
+                z-index: 22;
+                font-size: 0;
+                text-decoration: none;
+
+                &:before {
+                    line-height: 1;
+                    float: left;
+                    cursor: pointer;
+                }
+
+                &.play {
+                    &:before {
+                        content: "\e619";
+                        font-family: @icons__font-name;
+                        font-size: 24px;
+                        color: @color-white;
+                    }
+                }
+
+                &.pause {
+                    &:before {
+                        content: " ";
+                        width: 20px;
+                        height: 20px;
+                        background: url('@{baseDir}images/pause-btn.svg') no-repeat left top;
+                        background-size: contain;
+                    }
+                }
+            }
+        }
+
+        &.mobile {
+            display: none;
+        }
+    }
+}
+
+//
+//  Mobile
+//  _____________________________________________
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
+    #banner-slider-carousel {
+        .owl-nav {
+            margin: 0;
+        }
+    }
+
+    .homepage-main-banner {
+        &.mobile {
+            display: block;
+        }
+
+        &.desktop {
+            display: none;
+        }
+    }
+}
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__mxls) {
+    .homepage-main-banner {
+        #banner-slider-carousel {
+            .owl-nav {
+                opacity: 1;
+
+                button{
+                    width: 40px;
+                    height: 40px;
+                    margin-top: -26px;
+                    line-height: 40px;
+
+                    &.owl-prev,
+                    &.owl-next {
+                        &:before {
+                            font-size: 24px;
+                            line-height: 40px;
+                            position: relative;
+                        }
+                    }
+
+                    &.owl-prev {
+                        left: 0;
+                    }
+                    &.owl-next {
+                        right: 0;
+                    }
+                }
+            }
+
+            .owl-dots {
+                bottom: 10px;
+                opacity: 1;
+
+                .owl-dot {
+                    width: 20px;
+                    span {
+                        width: 8px;
+                        height: 8px;
+                    }
+                }
+            }
+            .play-pause-box {
+                .button.secondary {
+                    top: -28px;
+                    right: 14px;
+
+                    &:before {
+                        width: 15px;
+                        height: 15px;
+                    }
+                }
+            }
+        }
+    }
+}

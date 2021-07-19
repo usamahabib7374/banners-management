@@ -1,0 +1,70 @@
+<?xml version="1.0"?>
+<!--
+
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+	<preference for="MageDad\BannerManagement\Api\Data\BannerSearchResultsInterface" type="Magento\Framework\Api\SearchResults"/>
+	<preference for="MageDad\BannerManagement\Api\Data\BannerInterface" type="MageDad\BannerManagement\Model\Banner"/>
+	<preference for="MageDad\BannerManagement\Api\BannerRepositoryInterface" type="MageDad\BannerManagement\Model\BannerRepository"/>
+	<preference for="MageDad\BannerManagement\Api\Data\SliderSearchResultsInterface" type="Magento\Framework\Api\SearchResults"/>
+	<preference for="MageDad\BannerManagement\Api\Data\SliderInterface" type="MageDad\BannerManagement\Model\Slider"/>
+	<preference for="MageDad\BannerManagement\Api\SliderRepositoryInterface" type="MageDad\BannerManagement\Model\SliderRepository"/>
+	<virtualType name="MageDad\BannerManagement\Model\ResourceModel\Banner\Grid\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+		<arguments>
+			<argument name="mainTable" xsi:type="string">magedad_bannerslider_banner</argument>
+			<argument name="resourceModel" xsi:type="string">MageDad\BannerManagement\Model\ResourceModel\Banner</argument>
+		</arguments>
+	</virtualType>
+	<type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+		<arguments>
+			<argument name="collections" xsi:type="array">
+				<item name="bannersmanagement_banner_listing_data_source" xsi:type="string">MageDad\BannerManagement\Model\ResourceModel\Banner\Grid\Collection</item>
+			</argument>
+		</arguments>
+	</type>
+	<virtualType name="MageDad\BannerManagement\Model\ResourceModel\Slider\Grid\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+		<arguments>
+			<argument name="mainTable" xsi:type="string">magedad_bannerslider_slider</argument>
+			<argument name="resourceModel" xsi:type="string">MageDad\BannerManagement\Model\ResourceModel\Slider</argument>
+		</arguments>
+	</virtualType>
+	<type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+		<arguments>
+			<argument name="collections" xsi:type="array">
+				<item name="bannermanagement_slider_listing_data_source" xsi:type="string">MageDad\BannerManagement\Model\ResourceModel\Slider\Grid\Collection</item>
+			</argument>
+		</arguments>
+	</type>
+	<virtualType name="MageDad\BannerManagement\ImageUpload" type="MageDad\BannerManagement\Model\ImageUploader">
+		<arguments>
+			<argument name="baseTmpPath" xsi:type="string">magedad/banners</argument>
+			<argument name="basePath" xsi:type="string">magedad/banners</argument>
+			<argument name="allowedExtensions" xsi:type="array">
+				<item name="jpg" xsi:type="string">jpg</item>
+				<item name="jpeg" xsi:type="string">jpeg</item>
+				<item name="gif" xsi:type="string">gif</item>
+				<item name="png" xsi:type="string">png</item>
+				<item name="ico" xsi:type="string">ico</item>
+				<item name="apng" xsi:type="string">apng</item>
+				<item name="avi" xsi:type="string">avi</item>
+				<item name="MTS" xsi:type="string">MTS</item>
+				<item name="M2TS" xsi:type="string">M2TS</item>
+				<item name="mov" xsi:type="string">mov</item>
+				<item name="qt" xsi:type="string">qt</item>
+				<item name="wmv" xsi:type="string">wmv</item>
+				<item name="mp4" xsi:type="string">mp4</item>
+			</argument>
+		</arguments>
+	</virtualType>
+	<type name="MageDad\BannerManagement\Controller\Adminhtml\Image\Save">
+		<arguments>
+			<argument name="imageUploader" xsi:type="object">MageDad\BannerManagement\ImageUpload</argument>
+		</arguments>
+	</type>
+	<type name="MageDad\BannerManagement\Block\WysiwygBlock">
+		<arguments>
+			<argument name="templateProcessor" xsi:type="object">Magento\Widget\Model\Template\Filter</argument>
+		</arguments>
+	</type>
+	<preference for="MageDad\BannerManagement\Api\Data\SliderBannersInterface" type="MageDad\BannerManagement\Model\SliderBanners"/>
+</config>

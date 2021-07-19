@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<!--
+
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+    	<add id="MageDad_BannerManagement::magedad" title="Kanzi" module="MageDad_BannerManagement" sortOrder="33" resource="MageDad_BannerManagement::magedad"/>
+        <add id="MageDad_BannerManagement::bannermanagement" title="Banner Sliders" module="MageDad_BannerManagement" sortOrder="100" resource="MageDad_BannerManagement::bannerslider" parent="MageDad_BannerManagement::magedad"/>
+        <add id="MageDad_BannerManagement::banner" title="Manage Banner" module="MageDad_BannerManagement" sortOrder="20" parent="MageDad_BannerManagement::bannermanagement" action="bannermanagement/banner/index" resource="MageDad_BannerManagement::banner"/>
+        <add id="MageDad_BannerManagement::slider" title="Manage Slider" module="MageDad_BannerManagement" sortOrder="30" parent="MageDad_BannerManagement::bannermanagement" action="bannermanagement/slider/index" resource="MageDad_BannerManagement::slider"/>
+    </menu>
+</config>

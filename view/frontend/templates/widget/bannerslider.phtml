@@ -1,0 +1,123 @@
+<?php
+
+
+$banners = $block->getBannerCollection();
+
+$blockObj= $block->getLayout()->createBlock('MageDad\BannerManagement\Block\WysiwygBlock');
+
+if (!empty($banners)) :
+    $sliderId = $block->getSliderId() . '-' . uniqid();
+    $sliderOptions = $block->getBannerOptions();
+    foreach($block->getDeviceClass() as $device)
+    {
+    ?>
+    <div class="carousel-container <?php echo $block->escapeHtml($device); ?> homepage-main-banner" style="margin-bottom:20px;">
+        <div id="banner-slider-carousel">
+            <?php $iterator = 1; ?>
+            <div id="bannerslider-list-items-<?php echo $block->escapeHtml($sliderId).$device; ?>"
+                 class="owl-carousel owl-theme">
+                <?php foreach ($banners as $banner) : ?>
+                    <?php
+                    $bnType = $banner->getType();
+                    $bnTitle = $banner->getTitle();
+                    $bnUrl = $banner->getUrlBanner();
+                    $bnImg = $banner->getImageUrl();
+                    ?>
+
+                    <?php if ($bnType == \MageDad\BannerManagement\Model\Config\Source\Type::VIDEO) : #video type?>
+                        <div class="item video-item  animated" data-merge="<?= $block->escapeHtml($iterator); ?>">
+                            <video class="video" width="1200" height="633" src="<?= $block->escapeHtml($bnImg); ?>" controls muted="muted"></video>
+                        </div>
+<!--                           <div class="play-pause-box" style="visibility: hidden;">
+                            <a class="play-pause-button button secondary pause">Play/Pause</a>
+                        </div> -->
+                    <?php elseif ($bnType == \MageDad\BannerManagement\Model\Config\Source\Type::CONTENT) : #content type?>
+                        <div class="item content-item bounceInLeft animated" data-merge="<?= $block->escapeHtml($iterator); ?>">
+                            <?php echo $blockObj->filterOutputHtml($banner->getContent()); ?>
+                        </div>
+                    <?php else : #image type?>
+                        <div class="item-image">
+                            <?php if (!empty($bnUrl)) : ?>
+                                <a class="owl-image"
+                                   href="<?php echo $block->escapeHtml($bnUrl) ?>" <?php echo ($banner->getNewtab() == 1) ? 'target="_blank"' : '' ?>>
+                                    <?php if (!empty($bnTitle)) : ?>
+                                        <div class="banner-title"><?php echo $block->escapeHtml($bnTitle) ?></div>
+                                    <?php endif; ?>
+                                    <img class="img-responsive" src="<?php echo $block->escapeHtml($bnImg) ?>" width="1200" height="633"/>
+                                </a>
+                            <?php else : ?>
+                                <img class="owl-image img-responsive" src="<?php echo $block->escapeHtml($bnImg) ?>"
+                                     title="<?php echo $block->escapeHtml($bnTitle) ?>" width="1200" height="633" />
+                            <?php endif; ?>
+                        </div>
+                    <?php endif; ?>
+                <?php endforeach; ?>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        require(['jquery', 'magedad/bannermanagement/owl.carousel'], function ($) {
+
+            var owl<?= $block->escapeHtml($device); ?> = $('#bannerslider-list-items-<?php echo $block->escapeHtml($sliderId).$device; ?>');
+            $(document).ready(function () {
+                if ($(".<?= $block->escapeHtml($device); ?>").is(':visible')) {
+                    var optionData =<?php echo $sliderOptions; ?>;
+                    optionData.merge = 1;
+                    if($('html').attr('lang')==='ar'){
+                        optionData.rtl = 1;
+                    }
+                    optionData.margin = 0;
+                    //delete optionData.autoHeight;
+                    //delete optionData.autoWidth;
+                   // delete optionData.animateOut;
+                    owl<?= $block->escapeHtml($device); ?>.owlCarousel(optionData);
+                    if (optionData.autoplayTimeout) {
+                        var timeOut = optionData.autoplayTimeout;
+                    } else {
+                        var timeOut = 2000;
+                    }
+                    $(document).on('click', '.<?= $block->escapeHtml($device); ?> .pause', function () {
+                        $(this).removeClass('pause');
+                        $(this).addClass('play');
+                        owl<?= $block->escapeHtml($device); ?>.trigger('stop.owl.autoplay');
+                    });
+                    $(document).on('click', '.<?= $block->escapeHtml($device); ?> .play', function () {
+                        $(this).removeClass('play');
+                        $(this).addClass('pause');
+                        owl<?= $block->escapeHtml($device); ?>.trigger('play.owl.autoplay', [timeOut]);
+                    });
+
+                    $('.<?= $block->escapeHtml($device); ?> video').on('ended', function () {
+                        $('.<?= $block->escapeHtml($device); ?> .play-pause-button').removeClass('play');
+                        $('.<?= $block->escapeHtml($device); ?> .play-pause-button').addClass('pause');
+                        owl<?= $block->escapeHtml($device); ?>.trigger('play.owl.autoplay', [timeOut]);
+
+                    });
+
+                    owl<?= $block->escapeHtml($device); ?>.on('changed.owl.carousel', function (property) {
+                        var current = property.item.index;
+                        var src = $(property.target).find(".owl-item").eq((current)).find("video");
+                        if (src.length == 1) {
+                            src[0].play();
+                            $('.<?= $block->escapeHtml($device); ?> .play-pause-button').removeClass('pause');
+                            $('.<?= $block->escapeHtml($device); ?> .play-pause-button').addClass('play');
+                            owl<?= $block->escapeHtml($device); ?>.trigger('stop.owl.autoplay');
+                        } else {
+                            $(".<?= $block->escapeHtml($device); ?> video").each(function () {
+                                this.pause();
+                            });
+                        }
+                    });
+
+                    $( ".carousel-container.<?php echo $block->escapeHtml($device); ?>" ).mouseenter(function() {
+                        $(this).find('.play-pause-box').css('visibility','visible');
+                    }).mouseleave(function() {
+                        $(this).find('.play-pause-box').css('visibility','hidden');
+                    });
+
+                }
+            });
+        });
+    </script>
+<?php }endif; ?>
